@@ -42,13 +42,13 @@ export default (procedures) => {
         const [offset, skip] = ret;
         assert(_.isInteger(offset) && offset > 0);
         state.offset += offset;
-        if (skip == null) {
+        if (skip == null || skip === 0) {
           state.index += 1;
         } else {
           assert(_.isInteger(skip));
           if (skip > 0) {
             state.index = skip;
-          } else if (skip < 0) {
+          } else {
             state.index += skip;
           }
         }
