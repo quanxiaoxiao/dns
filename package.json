@@ -1,9 +1,14 @@
 {
   "name": "@quanxiaoxiao/dns",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
+  "main": "./src/index.mjs",
+  "exports": "./src/index.mjs",
   "scripts": {
     "test": "node --test"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.24.5",
@@ -18,7 +23,7 @@
     "eslint-plugin-react-hooks": "^4.6.2"
   },
   "engines": {
-    "node": ">= 14.18.0"
+    "node": ">= 20.0.0"
   },
   "dependencies": {
     "@quanxiaoxiao/bytes": "^0.1.0",

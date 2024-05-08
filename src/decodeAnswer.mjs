@@ -203,4 +203,4 @@ const procedures = [
   },
 ];
 
-export default () => decode(procedures);
+export default (chunk) => decode(procedures)(chunk);

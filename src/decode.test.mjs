@@ -188,15 +188,15 @@ test('decode 2', () => {
   assert.equal(ret, null);
   assert.equal(handler1.mock.calls.length, 2);
   assert.equal(handler2.mock.calls.length, 3);
-  assert.equal(readSize.mock.calls.length, 0);
+  assert.equal(readSize.mock.calls.length, 1);
   assert.equal(handler3.mock.calls.length, 0);
   ret = execute(Buffer.from('efg'));
   assert.equal(ret, null);
-  assert.equal(readSize.mock.calls.length, 1);
+  assert.equal(readSize.mock.calls.length, 2);
   assert.equal(handler3.mock.calls.length, 0);
   ret = execute(Buffer.from('7777777'));
   assert.equal(ret.buf.toString(), '7');
   assert.equal(handler3.mock.calls.length, 1);
-  assert.equal(readSize.mock.calls.length, 2);
+  assert.equal(readSize.mock.calls.length, 3);
   assert.deepEqual(ret.payload, { bb: '111', cc: '666', foo: 'bar' });
 });

@@ -26,7 +26,7 @@ export default (procedures) => {
     }
     while (state.size > 0
       && state.index < procedures.length
-      && state.size > state.offset
+      && state.size >= state.offset
     ) {
       const handler = procedures[state.index];
       if (typeof handler === 'function') {
@@ -40,7 +40,7 @@ export default (procedures) => {
         }
         assert(Array.isArray(ret));
         const [offset, skip] = ret;
-        assert(_.isInteger(offset) && offset > 0);
+        assert(_.isInteger(offset) && offset >= 0);
         state.offset += offset;
         if (skip == null || skip === 0) {
           state.index += 1;
@@ -57,7 +57,7 @@ export default (procedures) => {
       } else {
         assert(_.isPlainObject(handler));
         assert(typeof handler.fn === 'function');
-        const sizeRead = typeof handler.size === 'function' ? handler.size(state.payload) : handler.size;
+        const sizeRead = typeof handler.size === 'function' ? handler.size(state.payload, state.offset, state.buf) : handler.size;
         assert(_.isInteger(sizeRead) && sizeRead > 0);
         const sizeRemained = state.size - state.offset;
         assert(sizeRemained >= 0);
