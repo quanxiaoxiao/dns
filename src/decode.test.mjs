@@ -1,5 +1,6 @@
 import assert from 'node:assert';
-import { test, mock } from 'node:test';
+import { mock,test } from 'node:test';
+
 import decode from './decode.mjs';
 
 test('decode', () => {

@@ -1,5 +1,6 @@
-import { Buffer } from 'node:buffer';
 import assert from 'node:assert';
+import { Buffer } from 'node:buffer';
+
 import _ from 'lodash';
 
 export default (procedures) => {

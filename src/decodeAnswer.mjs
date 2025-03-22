@@ -1,10 +1,10 @@
+import decode from './decode.mjs';
+import decodeHostname from './decodeHostname.mjs';
 import {
   RECORD_TYPE_A,
   RECORD_TYPE_AAAA,
   RECORD_TYPE_CNAME,
 } from './recordTypes.mjs';
-import decodeHostname from './decodeHostname.mjs';
-import decode from './decode.mjs';
 
 const formatHostname = (arr) => {
   let result = '';
@@ -159,39 +159,39 @@ const procedures = [
     fn: (chunk, payload, buf) => {
       const last = payload.answers[payload.answers.length - 1];
       switch (last.recordType) {
-        case RECORD_TYPE_CNAME: {
-          const nameList = decodeHostname(chunk.slice(0, last.dataLength), buf);
-          last.cname = nameList.map((b) => b.toString()).join('.');
-          break;
-        }
-        case RECORD_TYPE_A: {
-          last.address = [
-            chunk.readUint8(0),
-            chunk.readUint8(1),
-            chunk.readUint8(2),
-            chunk.readUint8(3),
-          ].join('.');
-          break;
-        }
-        case RECORD_TYPE_AAAA: {
-          const arr = [];
-          const toHex = (i, isPad) => {
-            const s = chunk.readUint8(i).toString(16);
-            if (isPad) {
-              return s.padStart(2, '0');
-            }
-            return s;
-          };
-          for (let i = 0; i < chunk.length;) {
-            arr.push(`${toHex(i)}${toHex(i + 1, true)}`
-              .replace(/^0+([^0])/, (a, b) => b)
-              .replace(/^0+$/, '0'));
-            i += 2;
+      case RECORD_TYPE_CNAME: {
+        const nameList = decodeHostname(chunk.slice(0, last.dataLength), buf);
+        last.cname = nameList.map((b) => b.toString()).join('.');
+        break;
+      }
+      case RECORD_TYPE_A: {
+        last.address = [
+          chunk.readUint8(0),
+          chunk.readUint8(1),
+          chunk.readUint8(2),
+          chunk.readUint8(3),
+        ].join('.');
+        break;
+      }
+      case RECORD_TYPE_AAAA: {
+        const arr = [];
+        const toHex = (i, isPad) => {
+          const s = chunk.readUint8(i).toString(16);
+          if (isPad) {
+            return s.padStart(2, '0');
           }
-          last.address = arr.join(':');
-          break;
+          return s;
+        };
+        for (let i = 0; i < chunk.length;) {
+          arr.push(`${toHex(i)}${toHex(i + 1, true)}`
+            .replace(/^0+([^0])/, (a, b) => b)
+            .replace(/^0+$/, '0'));
+          i += 2;
         }
-        default: break;
+        last.address = arr.join(':');
+        break;
+      }
+      default: break;
       }
     },
   },

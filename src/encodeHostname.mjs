@@ -1,4 +1,5 @@
 import assert from 'node:assert';
+
 import { enpack } from '@quanxiaoxiao/bytes';
 
 const CHUNK_END = Buffer.from([0x00]);

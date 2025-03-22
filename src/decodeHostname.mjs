@@ -1,5 +1,5 @@
-import { Buffer } from 'node:buffer';
 import assert from 'node:assert';
+import { Buffer } from 'node:buffer';
 
 const decodeHostname = (chunk, buf) => {
   assert(Buffer.isBuffer(chunk));

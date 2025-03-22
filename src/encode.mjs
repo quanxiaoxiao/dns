@@ -1,8 +1,9 @@
 import assert from 'node:assert';
-import { OPCODE_QUERY } from './opcodes.mjs';
-import { RCODE_NOERROR } from './rcodes.mjs';
+
 import { CLASS_IN } from './classes.mjs';
 import encodeHostname from './encodeHostname.mjs';
+import { OPCODE_QUERY } from './opcodes.mjs';
+import { RCODE_NOERROR } from './rcodes.mjs';
 
 const QUERY_FLAG = 0;
 // const RESPONSE_FLAG = 1 << 15;
