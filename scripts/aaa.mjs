@@ -1,11 +1,13 @@
-import tls from 'node:tls';
 import assert from 'node:assert';
+import tls from 'node:tls';
+
 import {
-  enpack,
   depack,
+  enpack,
 } from '@quanxiaoxiao/bytes';
-import encodeV4 from '../src/encodeV4.mjs';
+
 import decodeAnswer from '../src/decodeAnswer.mjs';
+import encodeV4 from '../src/encodeV4.mjs';
 import { RECORD_TYPE_A } from '../src/recordTypes.mjs';
 
 const socket = tls.connect({
