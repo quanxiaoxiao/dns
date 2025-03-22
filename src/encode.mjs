@@ -22,14 +22,25 @@ export default ({
   recordType,
 }) => {
   assert(identification <= 65535 && identification >= 0);
-  const bufList = [];
-  const identificationBuf = Buffer.allocUnsafe(2);
-  const controlFirstBuf = Buffer.allocUnsafe(1);
-  const controlSecondBuf = Buffer.allocUnsafe(1);
-  const questionCountBuf = Buffer.allocUnsafe(2);
-  const answerRecordCountBuf = Buffer.allocUnsafe(2);
-  const authorityRecordCountBuf = Buffer.allocUnsafe(2);
-  const additionalRecordCountBuf = Buffer.allocUnsafe(2);
+  const bufList = [
+    Buffer.allocUnsafe(2), // identification
+    Buffer.allocUnsafe(1), // controlFirst
+    Buffer.allocUnsafe(1), // controlSecond
+    Buffer.allocUnsafe(2), // questionCount
+    Buffer.allocUnsafe(2), // answerRecordCount
+    Buffer.allocUnsafe(2), // authorityRecordCount
+    Buffer.allocUnsafe(2), // additionalRecordCount
+  ];
+  const [
+    identificationBuf,
+    controlFirstBuf,
+    controlSecondBuf,
+    questionCountBuf,
+    answerRecordCountBuf,
+    authorityRecordCountBuf,
+    additionalRecordCountBuf,
+  ] = bufList;
+
   const recordTypeBuf = Buffer.allocUnsafe(2);
   const classBuf = Buffer.allocUnsafe(2);
 
@@ -53,14 +64,6 @@ export default ({
   additionalRecordCountBuf.writeUInt16BE(0);
   recordTypeBuf.writeUInt16BE(recordType);
   classBuf.writeUInt16BE(CLASS_IN);
-
-  bufList.push(identificationBuf);
-  bufList.push(controlFirstBuf);
-  bufList.push(controlSecondBuf);
-  bufList.push(questionCountBuf);
-  bufList.push(answerRecordCountBuf);
-  bufList.push(authorityRecordCountBuf);
-  bufList.push(additionalRecordCountBuf);
 
   bufList.push(encodeHostname(hostname));
   bufList.push(recordTypeBuf);
