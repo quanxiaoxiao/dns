@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",
-    "eslint": "^8.57.1",
+    "eslint": "^9.22.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "globals": "^16.0.0"
   },
@@ -20,7 +20,7 @@
     "node": ">= 20.0.0"
   },
   "dependencies": {
-    "@quanxiaoxiao/bytes": "^0.1.0",
+    "@quanxiaoxiao/bytes": "^0.2.0",
     "lodash": "^4.17.21"
   }
 }
