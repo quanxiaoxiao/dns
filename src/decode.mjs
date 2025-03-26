@@ -41,17 +41,12 @@ export default (procedures) => {
         assert(Number.isInteger(offset) && offset >= 0);
         state.offset += offset;
         if (skip == null || skip === 0) {
-          state.index += 1;
+          state.index ++;
         } else {
           assert(Number.isInteger(skip));
-          if (skip > 0) {
-            state.index = skip;
-          } else {
-            state.index += skip;
-          }
+          state.index = skip > 0 ? skip : state.index + skip;
         }
-        assert(state.index >= 0);
-        assert(state.index <= procedures.length);
+        assert(state.index <= procedures.length && state.index >= 0);
       } else {
         assert(handler && typeof handler.fn === 'function');
         const sizeRead = typeof handler.size === 'function'
