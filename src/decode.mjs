@@ -5,11 +5,12 @@ import _ from 'lodash';
 
 export default (procedures) => {
   assert(Array.isArray(procedures) && procedures.length > 0);
+
   const state = {
     index: 0,
     offset: 0,
     size: 0,
-    buf: Buffer.from([]),
+    buf: Buffer.alloc(0),
     payload: {},
   };
 
@@ -18,18 +19,18 @@ export default (procedures) => {
     if (state.index === procedures.length) {
       throw new Error('parse already complete');
     }
+
     if (chunk.length > 0) {
       state.size += chunk.length;
-      state.buf = Buffer.concat([
-        state.buf,
-        chunk,
-      ], state.size);
+      state.buf = Buffer.concat([state.buf, chunk], state.size);
     }
+
     while (state.size > 0
       && state.index < procedures.length
       && state.size >= state.offset
     ) {
       const handler = procedures[state.index];
+
       if (typeof handler === 'function') {
         const ret = handler(
           state.buf.slice(state.offset),
