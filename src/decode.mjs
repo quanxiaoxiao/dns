@@ -75,12 +75,14 @@ export default (procedures) => {
         state.index += 1;
       }
     }
-    if (state.index === procedures.length) {
-      return {
-        payload: state.payload,
-        buf: state.buf.slice(state.offset),
-      };
+
+    if (state.index !== procedures.length) {
+      return null;
     }
-    return null;
+
+    return {
+      payload: state.payload,
+      buf: state.buf.subarray(state.offset),
+    };
   };
 };
