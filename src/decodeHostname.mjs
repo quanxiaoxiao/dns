@@ -11,22 +11,22 @@ const decodeHostname = (chunk, buf) => {
   let nameSize = chunk.readUint8(offset++);
   while (nameSize !== 0 && offset < chunk.length) {
     if (nameSize === 0xc0) {
-      const skip = chunk.readUint16BE(offset - 1) - 0xc000;
       if (offset >= chunk.length) {
         throw new Error('Invalid pointer offset');
       }
-      nameList.push(decodeHostname(chunk.subarray(skip), buf));
+      const pointerOffset = chunk.readUint16BE(offset - 1) - 0xc000;
+      nameList.push(decodeHostname(chunk.subarray(pointerOffset), buf));
       break;
-    } else {
-      const nameBuf = chunk.subarray(offset, offset + nameSize);
-      nameList.push(nameBuf);
-      offset += nameSize;
-      if (offset >= chunk.length) {
-        break;
-      }
-      nameSize = chunk.readUint8(offset);
-      offset += 1;
     }
+    if (offset + nameSize > chunk.length) {
+      throw new Error('Invalid name length');
+    }
+    nameList.push(chunk.subarray(offset, offset + nameSize));
+    offset += nameSize;
+    if (offset >= chunk.length) {
+      break;
+    }
+    nameSize = chunk.readUint8(offset++);
   }
   return nameList;
 };
