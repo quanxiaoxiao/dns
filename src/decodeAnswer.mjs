@@ -115,7 +115,9 @@ const procedures = [
   },
   (chunk, payload) => {
     payload.answers = [];
-    return [0, 0];
+    const offset = 0;
+    const skip = 0;
+    return [offset, skip];
   },
   (chunk, payload, buf) => {
     const nameList = decodeHostname(chunk, buf);
@@ -126,7 +128,9 @@ const procedures = [
       timeToLive: null,
       dataLength: null,
     });
-    return [calcHostnameLength(nameList), 0];
+    const skip = 0;
+    const offset = calcHostnameLength(nameList);
+    return [offset, skip];
   },
   {
     size: 2,
@@ -201,10 +205,12 @@ const procedures = [
     },
   },
   (chunk) => {
+    const offset = 0;
+    let skip = -6;
     if (chunk.length === 0 || chunk[0] === 0) {
-      return [0, 0];
+      skip = 0;
     }
-    return [0, -6];
+    return [offset, skip];
   },
 ];
 

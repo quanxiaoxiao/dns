@@ -26,6 +26,7 @@ socket.on('connect', () => {
   socket.write(enpack(encodeV4({
     transactionId: id,
     hostname: 'www.baidu.com',
+    // hostname: 'www.zhihu.com',
   }), 2));
 });
 
