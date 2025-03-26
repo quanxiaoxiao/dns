@@ -1,8 +1,6 @@
 import assert from 'node:assert';
 import { Buffer } from 'node:buffer';
 
-import _ from 'lodash';
-
 export default (procedures) => {
   assert(Array.isArray(procedures) && procedures.length > 0);
 
@@ -32,16 +30,14 @@ export default (procedures) => {
       const handler = procedures[state.index];
 
       if (typeof handler === 'function') {
-        const ret = handler(
+        const [offset, skip] = handler(
           state.buf.subarray(state.offset),
           state.payload,
           state.buf,
-        );
-        if (_.isEmpty(ret)) {
+        ) || [];
+        if (offset == null) {
           break;
         }
-        assert(Array.isArray(ret));
-        const [offset, skip] = ret;
         assert(Number.isInteger(offset) && offset >= 0);
         state.offset += offset;
         if (skip == null || skip === 0) {
