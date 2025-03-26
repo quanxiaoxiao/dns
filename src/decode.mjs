@@ -33,7 +33,7 @@ export default (procedures) => {
 
       if (typeof handler === 'function') {
         const ret = handler(
-          state.buf.slice(state.offset),
+          state.buf.subarray(state.offset),
           state.payload,
           state.buf,
         );
@@ -42,12 +42,12 @@ export default (procedures) => {
         }
         assert(Array.isArray(ret));
         const [offset, skip] = ret;
-        assert(_.isInteger(offset) && offset >= 0);
+        assert(Number.isInteger(offset) && offset >= 0);
         state.offset += offset;
         if (skip == null || skip === 0) {
           state.index += 1;
         } else {
-          assert(_.isInteger(skip));
+          assert(Number.isInteger(skip));
           if (skip > 0) {
             state.index = skip;
           } else {
