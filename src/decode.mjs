@@ -57,17 +57,18 @@ export default (procedures) => {
         assert(state.index >= 0);
         assert(state.index <= procedures.length);
       } else {
-        assert(_.isPlainObject(handler));
-        assert(typeof handler.fn === 'function');
-        const sizeRead = typeof handler.size === 'function' ? handler.size(state.payload, state.offset, state.buf) : handler.size;
-        assert(_.isInteger(sizeRead) && sizeRead > 0);
+        assert(handler && typeof handler.fn === 'function');
+        const sizeRead = typeof handler.size === 'function'
+          ? handler.size(state.payload, state.offset, state.buf)
+          : handler.size;
+        assert(Number.isInteger(sizeRead) && sizeRead > 0);
         const sizeRemained = state.size - state.offset;
         assert(sizeRemained >= 0);
         if (sizeRemained === 0 || sizeRemained < sizeRead) {
           break;
         }
         handler.fn(
-          state.buf.slice(state.offset, state.offset + sizeRead),
+          state.buf.subarray(state.offset, state.offset + sizeRead),
           state.payload,
           state.buf,
         );
