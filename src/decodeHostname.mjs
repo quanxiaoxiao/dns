@@ -3,20 +3,22 @@ import { Buffer } from 'node:buffer';
 
 const decodeHostname = (chunk, buf) => {
   assert(Buffer.isBuffer(chunk));
-  if (buf.length === 0) {
+  if (buf.length === 0 || chunk.length === 0) {
     return [];
   }
   const nameList = [];
-  let nameSize = chunk.readUint8(0);
-  let offset = 1;
-  while (nameSize !== 0 && chunk.length > offset) {
+  let offset = 0;
+  let nameSize = chunk.readUint8(offset++);
+  while (nameSize !== 0 && offset < chunk.length) {
     if (nameSize === 0xc0) {
       const skip = chunk.readUint16BE(offset - 1) - 0xc000;
-      assert(skip <= chunk.length);
-      nameList.push(decodeHostname(chunk.slice(skip), buf));
+      if (offset >= chunk.length) {
+        throw new Error('Invalid pointer offset');
+      }
+      nameList.push(decodeHostname(chunk.subarray(skip), buf));
       break;
     } else {
-      const nameBuf = chunk.slice(offset, offset + nameSize);
+      const nameBuf = chunk.subarray(offset, offset + nameSize);
       nameList.push(nameBuf);
       offset += nameSize;
       if (offset >= chunk.length) {

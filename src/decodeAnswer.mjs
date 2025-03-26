@@ -99,7 +99,9 @@ const procedures = [
     payload.query = {
       name: formatHostname(nameList),
     };
-    return [calcHostnameLength(nameList), 0];
+    const offset = calcHostnameLength(nameList);
+    const skip = 0;
+    return [offset, skip];
   },
   {
     size: 2,
