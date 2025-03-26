@@ -95,12 +95,16 @@ const procedures = [
     },
   },
   (chunk, payload, buf) => {
+    const skip = 0;
+    let offset = 0;
+    if (buf.length === 0) {
+      return [offset, skip];
+    }
     const nameList = decodeHostname(chunk, buf);
     payload.query = {
       name: formatHostname(nameList),
     };
-    const offset = calcHostnameLength(nameList);
-    const skip = 0;
+    offset = calcHostnameLength(nameList);
     return [offset, skip];
   },
   {
@@ -122,6 +126,11 @@ const procedures = [
     return [offset, skip];
   },
   (chunk, payload, buf) => {
+    const skip = 0;
+    let offset = 0;
+    if (buf.length === 0) {
+      return [offset, skip];
+    }
     const nameList = decodeHostname(chunk, buf);
     payload.answers.push({
       name: formatHostname(nameList),
@@ -130,8 +139,7 @@ const procedures = [
       timeToLive: null,
       dataLength: null,
     });
-    const skip = 0;
-    const offset = calcHostnameLength(nameList);
+    offset = calcHostnameLength(nameList);
     return [offset, skip];
   },
   {
@@ -171,7 +179,11 @@ const procedures = [
       const last = payload.answers[payload.answers.length - 1];
       switch (last.recordType) {
       case RECORD_TYPE_CNAME: {
-        const nameList = decodeHostname(chunk.slice(0, last.dataLength), buf);
+        if (buf.length === 0) {
+          last.cname = '';
+          break;
+        }
+        const nameList = decodeHostname(chunk.subarray(0, last.dataLength), buf);
         last.cname = nameList.map((b) => b.toString()).join('.');
         break;
       }

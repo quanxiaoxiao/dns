@@ -38,6 +38,7 @@ socket.on('data', (chunk) => {
     const { payload } = decodeAnswer(ret.payload);
     assert(payload.transactionId === id);
     const addressList = payload.answers.filter((d) => d.recordType === RECORD_TYPE_A);
-    console.log(addressList);
+    console.log(payload);
+    // console.log(addressList);
   }
 });
