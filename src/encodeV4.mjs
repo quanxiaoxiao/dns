@@ -3,9 +3,9 @@ import { RECORD_TYPE_A } from './recordTypes.mjs';
 
 export default ({
   hostname,
-  identification = 0,
+  transactionId = 0,
 }) => encode({
   hostname,
-  identification,
+  transactionId,
   recordType: RECORD_TYPE_A,
 });

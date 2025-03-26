@@ -42,8 +42,9 @@ const calcHostnameLength = (arr) => {
 const procedures = [
   {
     size: 2,
+    description: 'transaction id',
     fn: (chunk, payload) => {
-      payload.identification = chunk.readUint16BE(0);
+      payload.transactionId = chunk.readUint16BE(0);
     },
   },
   {
@@ -67,24 +68,28 @@ const procedures = [
   },
   {
     size: 2,
+    description: 'question count',
     fn: (chunk, payload) => {
       payload.questionCount = chunk.readUint16BE(0);
     },
   },
   {
     size: 2,
+    description: 'answer record count',
     fn: (chunk, payload) => {
       payload.answerRecordCount = chunk.readUint16BE(0);
     },
   },
   {
     size: 2,
+    description: 'authority record count',
     fn: (chunk, payload) => {
       payload.authorityRecordCount = chunk.readUint16BE(0);
     },
   },
   {
     size: 2,
+    description: 'addition record count',
     fn: (chunk, payload) => {
       payload.additionalRecordCount = chunk.readUint16BE(0);
     },

@@ -24,8 +24,8 @@ const id = 33;
 socket.on('connect', () => {
   console.log('connect');
   socket.write(enpack(encodeV4({
-    identification: id,
-    hostname: 'www.zhihu.com',
+    transactionId: id,
+    hostname: 'www.baidu.com',
   }), 2));
 });
 
@@ -35,7 +35,7 @@ socket.on('data', (chunk) => {
   const ret = executeDepack(chunk);
   if (ret) {
     const { payload } = decodeAnswer(ret.payload);
-    assert(payload.identification === id);
+    assert(payload.transactionId === id);
     const addressList = payload.answers.filter((d) => d.recordType === RECORD_TYPE_A);
     console.log(addressList);
   }
