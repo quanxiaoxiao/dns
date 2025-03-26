@@ -1,13 +1,13 @@
+export const RECORD_TYPE_CNAME = 5;
 export const RECORD_TYPE_A = 1;
-export const RECORD_TYPE_NULL = 10;
 export const RECORD_TYPE_AAAA = 28;
+export const RECORD_TYPE_NULL = 10;
 export const RECORD_TYPE_AFSDB = 18;
 export const RECORD_TYPE_APL = 42;
 export const RECORD_TYPE_CAA = 257;
 export const RECORD_TYPE_CDNSKEY = 60;
 export const RECORD_TYPE_CDS = 59;
 export const RECORD_TYPE_CERT = 37;
-export const RECORD_TYPE_CNAME = 5;
 export const RECORD_TYPE_DHCID = 49;
 export const RECORD_TYPE_DLV = 32769;
 export const RECORD_TYPE_DNAME = 39;

@@ -139,11 +139,11 @@ const socket = tls.connect({
 
 const _id = generateID();
 
-const index = 2;
+const index = 12;
 
 socket.on('connect', () => {
   console.log('connect');
-  socket.write(enpack(encodeV4({
+  socket.write(enpack(encodeV6({
     transactionId: _id(),
     hostname: hostnameList[index],
   }), 2));
