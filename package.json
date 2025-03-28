@@ -1,6 +1,6 @@
 {
   "name": "@quanxiaoxiao/dns",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "type": "module",
   "main": "./src/index.mjs",
   "exports": "./src/index.mjs",
@@ -20,6 +20,6 @@
     "node": ">= 20.0.0"
   },
   "dependencies": {
-    "@quanxiaoxiao/bytes": "^0.2.0"
+    "@quanxiaoxiao/bytes": "^0.4.0"
   }
 }

@@ -1,7 +1,8 @@
 import assert from 'node:assert';
 
+import { decode } from '@quanxiaoxiao/bytes';
+
 import calcHostnameLength from './calcHostnameLength.mjs';
-import decode from './decode.mjs';
 import decodeHostname from './decodeHostname.mjs';
 import formatHostname from './formatHostname.mjs';
 import {

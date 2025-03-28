@@ -137,7 +137,7 @@ const socket = tls.connect({
   }),
 });
 
-const _id = generateID();
+const _id = generateID(8);
 
 const index = 12;
 
