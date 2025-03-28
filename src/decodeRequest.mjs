@@ -24,7 +24,6 @@ const procedures = [
         isNoneAuthenticate: null,
         isADBit: null,
       };
-      console.log(chunk);
       const n = chunk.readUint8(0);
       payload.flags.isResponse = (n & 128) !== 0;
       assert(!payload.flags.isResponse);
@@ -37,7 +36,7 @@ const procedures = [
     size: 1,
     fn: (chunk, payload) => {
       const n = chunk.readUint8(0);
-      payload.flags.isADBit = (n & 32) !== 0;
+      payload.flags.isAuthenticatedData = (n & 32) !== 0;
       payload.flags.isNoneAuthenticate = (n & 16) !== 0;
     },
   },
@@ -72,9 +71,7 @@ const procedures = [
   {
     size: 2,
     fn: (chunk, payload) => {
-      payload.query = {
-      };
-      // payload.query.recordType = chunk.readUint16BE(0);
+      payload.query = {};
     },
   },
   (chunk, payload, buf) => {
@@ -87,7 +84,7 @@ const procedures = [
   {
     size: 2,
     fn: (chunk, payload) => {
-      payload.query.recordType = chunk.readUint16BE(0);
+      payload.query.type = chunk.readUint16BE(0);
     },
   },
   {

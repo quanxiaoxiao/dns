@@ -1,5 +1,5 @@
 import encode from './encode.mjs';
-import { RECORD_TYPE_AAAA } from './recordTypes.mjs';
+import { RECORD_TYPE_AAAA } from './types.mjs';
 
 export default ({
   hostname,
@@ -7,5 +7,5 @@ export default ({
 }) => encode({
   hostname,
   identification,
-  recordType: RECORD_TYPE_AAAA,
+  type: RECORD_TYPE_AAAA,
 });

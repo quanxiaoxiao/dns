@@ -8,7 +8,7 @@ import {
   RECORD_TYPE_A,
   RECORD_TYPE_AAAA,
   RECORD_TYPE_CNAME,
-} from './recordTypes.mjs';
+} from './types.mjs';
 
 const procedures = [
   {
@@ -95,7 +95,7 @@ const procedures = [
   {
     size: 2,
     fn: (chunk, payload) => {
-      payload.query.recordType = chunk.readUint16BE(0);
+      payload.query.type = chunk.readUint16BE(0);
     },
   },
   {
@@ -119,7 +119,7 @@ const procedures = [
     const nameList = decodeHostname(chunk, buf);
     payload.answers.push({
       name: formatHostname(nameList),
-      recordType: null,
+      type: null,
       class: null,
       timeToLive: null,
       dataLength: null,
@@ -131,7 +131,7 @@ const procedures = [
     size: 2,
     fn: (chunk, payload) => {
       const last = payload.answers[payload.answers.length - 1];
-      last.recordType = chunk.readUint16BE(0);
+      last.type = chunk.readUint16BE(0);
     },
   },
   {
@@ -162,7 +162,7 @@ const procedures = [
     },
     fn: (chunk, payload, buf) => {
       const last = payload.answers[payload.answers.length - 1];
-      switch (last.recordType) {
+      switch (last.type) {
       case RECORD_TYPE_CNAME: {
         if (buf.length === 0) {
           last.cname = '';

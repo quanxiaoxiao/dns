@@ -7,7 +7,6 @@ import { RCODE_NOERROR } from './rcodes.mjs';
 
 const FLAGS = {
   OPCODE_QUERY: OPCODE_QUERY << 3,
-  AUTHORITATIVE_ANSWER_FALSE: 0 << 2,
   TRUNCATE_FLAG_FALSE: 0 << 1,
   RECURSION_DESIRED_TRUE: 1,
 };
@@ -15,7 +14,7 @@ const FLAGS = {
 export default ({
   hostname,
   transactionId = 0,
-  recordType,
+  type,
 }) => {
   assert(transactionId <= 65535 && transactionId >= 0);
   const bufList = [
@@ -38,7 +37,7 @@ export default ({
   ] = bufList;
 
   transactionIdBuf.writeUInt16BE(transactionId);
-  const controlFirst = FLAGS.OPCODE_QUERY + FLAGS.AUTHORITATIVE_ANSWER_FALSE + FLAGS.TRUNCATE_FLAG_FALSE + FLAGS.RECURSION_DESIRED_TRUE;
+  const controlFirst = FLAGS.OPCODE_QUERY + FLAGS.TRUNCATE_FLAG_FALSE + FLAGS.RECURSION_DESIRED_TRUE;
   controlFirstBuf.writeUInt8(controlFirst);
 
   const controlSecond = RCODE_NOERROR;
@@ -49,15 +48,15 @@ export default ({
   authorityRecordCountBuf.writeUInt16BE(0);
   additionalRecordCountBuf.writeUInt16BE(0);
 
-  const recordTypeBuf = Buffer.allocUnsafe(2);
-  recordTypeBuf.writeUInt16BE(recordType);
+  const typeBuf = Buffer.allocUnsafe(2);
+  typeBuf.writeUInt16BE(type);
 
   const classBuf = Buffer.allocUnsafe(2);
   classBuf.writeUInt16BE(CLASS_IN);
 
   bufList.push(
     encodeHostname(hostname),
-    recordTypeBuf,
+    typeBuf,
     classBuf,
   );
 

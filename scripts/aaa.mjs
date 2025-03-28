@@ -6,7 +6,7 @@ import {
   generateID,
 } from '@quanxiaoxiao/bytes';
 
-import decodeAnswer from '../src/decodeAnswer.mjs';
+import decodeResponse from '../src/decodeResponse.mjs';
 import encodeV4 from '../src/encodeV4.mjs';
 import encodeV6 from '../src/encodeV6.mjs';
 
@@ -154,7 +154,7 @@ const executeDepack = depack();
 socket.on('data', (chunk) => {
   const ret = executeDepack(chunk);
   if (ret) {
-    const { payload } = decodeAnswer(ret.payload);
+    const { payload } = decodeResponse(ret.payload);
     console.log(payload);
   }
 });
