@@ -1,43 +1,14 @@
+import assert from 'node:assert';
+
+import calcHostnameLength from './calcHostnameLength.mjs';
 import decode from './decode.mjs';
 import decodeHostname from './decodeHostname.mjs';
+import formatHostname from './formatHostname.mjs';
 import {
   RECORD_TYPE_A,
   RECORD_TYPE_AAAA,
   RECORD_TYPE_CNAME,
 } from './recordTypes.mjs';
-
-const formatHostname = (arr) => {
-  let result = '';
-  for (let i = 0; i < arr.length; i++) {
-    const b = arr[i];
-    if (Array.isArray(b)) {
-      result = result === '' ? formatHostname(b) : `${result}.${formatHostname(b)}`;
-    } else {
-      result = result === '' ? b.toString() : `${result}.${b.toString()}`;
-    }
-  }
-  return result;
-};
-
-const calcHostnameLength = (arr) => {
-  let result = 0;
-  const len = arr.length;
-  if (len === 0) {
-    return 0;
-  }
-  for (let i = 0; i < len; i++) {
-    const b = arr[i];
-    if (Array.isArray(b)) {
-      result += 2;
-    } else {
-      result += b.length + 1;
-    }
-  }
-  if (Array.isArray(arr[len - 1])) {
-    return result;
-  }
-  return result + 1;
-};
 
 const procedures = [
   {
@@ -50,20 +21,34 @@ const procedures = [
   {
     size: 1,
     fn: (chunk, payload) => {
+      payload.flags = {
+        isResponse: null,
+        opCode: null,
+        isAuthoritativeAnswer: null,
+        isTruncate: null,
+        isRecursionDesired: null,
+        isAnswerAuthenticate: null,
+        isRecursionAvailable: null,
+        isNoneAuthenticate: null,
+        replyCode: null,
+      };
       const n = chunk.readUint8(0);
-      payload.isReply = (n & 128) !== 0;
-      payload.opCode = (n >> 3) & 15;
-      payload.isAuthoritativeAnswer = (n & 4) !== 0;
-      payload.isTruncate = (n & 2) !== 0;
-      payload.isRecursionDesired = (n & 1) !== 0;
+      payload.flags.isResponse = (n & 128) !== 0;
+      assert(payload.flags.isResponse);
+      payload.flags.opCode = (n >> 3) & 15;
+      payload.flags.isAuthoritativeAnswer = (n & 4) !== 0;
+      payload.flags.isTruncate = (n & 2) !== 0;
+      payload.flags.isRecursionDesired = (n & 1) !== 0;
     },
   },
   {
     size: 1,
     fn: (chunk, payload) => {
       const n = chunk.readUint8(0);
-      payload.isRecursionAvailable = (n & 128) !== 0;
-      payload.responseCode = n & 15;
+      payload.flags.isRecursionAvailable = (n & 128) !== 0;
+      payload.flags.isAnswerAuthenticate = (n & 32) !== 0;
+      payload.flags.isNoneAuthenticate = (n & 16) !== 0;
+      payload.flags.replyCode = n & 15;
     },
   },
   {

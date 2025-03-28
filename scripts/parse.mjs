@@ -7,7 +7,7 @@ import {
   depack,
 } from '@quanxiaoxiao/bytes';
 
-import decodeAnswer from '../src/decodeAnswer.mjs';
+import decodeResponse from '../src/decodeResponse.mjs';
 import {
   RECORD_TYPE_A,
   RECORD_TYPE_CNAME,
@@ -20,7 +20,8 @@ while (buf && buf.length > 0) {
   if (!ret) {
     break;
   }
-  const { payload } = decodeAnswer(ret.payload);
+  const { payload } = decodeResponse(ret.payload);
+  console.log(payload);
   assert(payload.transactionId >= 0);
   assert.equal(
     payload.answers.filter((d) => d.recordType === RECORD_TYPE_A || d.recordType === RECORD_TYPE_CNAME).length,

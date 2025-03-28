@@ -1,5 +1,5 @@
 import * as classes from './classes.mjs';
-import decodeAnswer from './decodeAnswer.mjs';
+import decodeResponse from './decodeResponse.mjs';
 import encodeV4 from './encodeV4.mjs';
 import encodeV6 from './encodeV6.mjs';
 import * as opcodes from './opcodes.mjs';
@@ -8,7 +8,7 @@ import * as recordTypes from './recordTypes.mjs';
 
 export {
   classes,
-  decodeAnswer,
+  decodeResponse,
   encodeV4,
   encodeV6,
   opcodes,
